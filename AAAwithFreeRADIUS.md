@@ -9,9 +9,11 @@ Set `Adapter 1` to `NAT network`.
 
 ```bash
 sudo su
+
+apt -y install freeradius freeradius-utils apache2 libapache2-mod-auth-radius
 ```
 
-/etc/freeradius/clients.conf
+Verify: /etc/freeradius/clients.conf
 ```text
 client localhost {
     ipaddr = 127.0.0.1

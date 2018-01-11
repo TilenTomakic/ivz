@@ -2,6 +2,7 @@
 
 sudo su
 
+apt update
 apt -y install nano gedit curl apache2 wireshark git
 usermod -a -G wireshark $USER
 # sudo usermod -a -G wireshark $USER
@@ -18,7 +19,7 @@ cat /proc/sys/net/ipv6/conf/all/disable_ipv6
 #######################
 # AAA with FreeRADIUS #
 #######################
-apt -y install freeradius freeradius-utils apache2 libapache2-mod-auth-radius
+
 
 
 
