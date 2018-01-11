@@ -342,3 +342,6 @@ ipsec up home
 # Virtual Ip
 https://wiki.strongswan.org/issues/908
 https://wiki.strongswan.org/projects/strongswan/wiki/IKEv2Examples
+
+
+PROPER: https://www.strongswan.org/testing/testresults/ikev2/ip-pool/
