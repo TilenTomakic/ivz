@@ -337,3 +337,7 @@ conn home
 ipsec restart
 ipsec up home
 ```
+
+# Virtual Ip
+https://wiki.strongswan.org/issues/908
+https://wiki.strongswan.org/projects/strongswan/wiki/IKEv2Examples

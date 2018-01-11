@@ -24,3 +24,10 @@ client localhost {
 "roaduser" Cleartext-Password := "road"
     Reply-Message = "Hello, %{User-Name}" 
 ```
+
+
+https://www.strongswan.org/testing/testresults/ikev2/rw-eap-md5-radius/
+
+
+MD5 example:
+https://www.strongswan.org/testing/testresults/ikev2/rw-eap-md5-radius/
