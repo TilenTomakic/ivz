@@ -17,3 +17,6 @@ apt -y install openssh-server openssh-client
 
 ssh-copy-id isp@$SERVER
 Command `ssh-copy-id` connect to server and set-ups all, it will ask you for server password.
+
+# SCP
+http://www.hypexr.org/linux_scp_help.php
