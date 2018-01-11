@@ -176,3 +176,90 @@ If problems stop ipsec service and run manually `sudo ipsec start --nofork`.
 ipsec up net-net
 # you should get: connection 'net-net' established successfully
 ```
+
+# Extra
+AES is symmetric! Both share same key.
+
+Sample .pom files: https://we.tl/hn1nljl1YI
+
+[Test ikev2/alg-aes-gcm: AES_GCM_16_256 ](https://www.strongswan.org/testresults4.html)
+[[strongSwan] Strongswan 5.4 issue using certificates](https://lists.strongswan.org/pipermail/users/2016-August/009861.html)
+
+Create shared key:
+```bash
+apt -y install openssl
+
+# ipsec pki --gen > caKey.der
+# ipsec pki --self --in caKey.der --dn "C=CH, O=strongSwan, CN=strongSwan CA" --ca > caCert.der
+# ipsec pki --gen > peerKey.der
+# ipsec pki --pub --in peerKey.der | ipsec pki --issue --cacert caCert.der --cakey caKey.der --dn "C=CH, O=strongSwan, CN=peer" > peerCert.der
+# openssl rsa -inform der -outform pem -in peerKey.der -out peerKey.pem
+# cp peerKey.pem /etc/ipsec.d/certs/hqCert.pem
+
+openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout key.pem -out cert.pem
+cp cert.pem /etc/ipsec.d/certs/hqCert.pem
+
+# option 2
+openssl req -x509 -days 730 -newkey rsa:1024 -keyout private/cakey.pem -out cacerts/moonReq.pem
+openssl x509 -in /etc/ipsec.d/cacerts/moonReq.pem -out /etc/ipsec.d/certs/moonCert.pem
+```
+
+> Switch to VM: hq_router
+
+Modify /etc/ipsec.conf
+```bash
+...
+
+conn %default
+	ikelifetime=60m
+	keylife=20m
+	rekeymargin=3m
+	keyingtries=1
+	keyexchange=ikev2
+	ike=aes256gcm16-aesxcbc-modp2048!
+	esp=aes256gcm16-modp2048!
+	# note remove authby
+	
+conn net-net
+	...
+	leftcert=hqCert.pem	
+	...
+```
+
+
+> Switch to VM: branch_router
+
+Modify /etc/ipsec.conf
+```bash
+...
+
+conn %default
+	ikelifetime=60m
+	keylife=20m
+	rekeymargin=3m
+	keyingtries=1
+	keyexchange=ikev2
+	ike=aes256gcm16-aesxcbc-modp2048!
+	esp=aes256gcm16-modp2048!
+	# note remove authby
+	
+conn net-net
+	...
+	leftcert=branchCert.pem	
+	...
+```
+
+# CA
+[Setting up CA .pem](https://wiki.strongswan.org/projects/strongswan/wiki/SimpleCA)
+
+> Router VM's:
+```bash
+apt -y install openssl
+```
+
+```bash
+mkdir vpn
+cd vpn
+ipsec pki --gen > caKey.der
+ipsec pki --self --in caKey.der --dn "C=CH, O=strongSwan, CN=strongSwan CA" --ca > caCert.der
+```
