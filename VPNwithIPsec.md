@@ -185,6 +185,10 @@ Sample .pom files: https://we.tl/hn1nljl1YI
 [Test ikev2/alg-aes-gcm: AES_GCM_16_256 ](https://www.strongswan.org/testresults4.html)
 [[strongSwan] Strongswan 5.4 issue using certificates](https://lists.strongswan.org/pipermail/users/2016-August/009861.html)
 
+DONT FORGET
+> # /etc/ipsec.secrets - strongSwan IPsec secrets file
+>  : RSA moonKey.pem
+
 Create shared key:
 ```bash
 apt -y install openssl
@@ -262,4 +266,74 @@ mkdir vpn
 cd vpn
 ipsec pki --gen > caKey.der
 ipsec pki --self --in caKey.der --dn "C=CH, O=strongSwan, CN=strongSwan CA" --ca > caCert.der
+```
+
+# Road W:.. with own virutal subnet
+
+> HQ VM
+
+/etc/ipsec.conf
+10.0.2.19 is public IP of our router
+```text
+...
+conn rw
+	left=10.0.2.19
+	leftid=@hq
+	leftsubnet=10.10.0.0/16,10.20.0.0/16
+	leftfirewall=yes
+	lefthostaccess=yes
+	right=%any
+	rightsourceip=%config
+	auto=add
+...
+```
+NOTE IF NOT ONLY ONE:
++ add `leftsubnet=.....,10.3.0.0/16` to others
+```text
+conn rw
+	left=10.0.2.19
+	leftid=@hq
+	leftsubnet=10.10.0.0/16,10.20.0.0/16
+	leftfirewall=yes
+	lefthostaccess=yes
+	right=%any
+	rightsubnet=10.3.0.0/16
+	auto=add
+```
+
+> road warior VM
+
+Notice: 10.0.2.21 is public ip of RW VM
+Notice: 10.0.2.19 is public ip of ROUTER VM
+/etc/ipsec.conf
+```text
+config setup
+
+conn %default
+    ikelifetime=60m
+    keylife=20m
+    rekeymargin=3m
+    keyingtries=1
+    keyexchange=ikev2
+    authby=secret
+
+conn home
+    left=10.0.2.21
+	leftsourceip=10.3.0.1
+	leftid=@rw
+	leftfirewall=yes
+	right=10.0.2.19
+	rightsubnet=10.10.0.0/16,10.20.0.0/16
+	rightid=@hq
+	auto=add
+```
+
+/etc/ipsec.secrets
+```text
+@hq @rw : PSK "secret"
+```
+
+```bash
+ipsec restart
+ipsec up home
 ```
