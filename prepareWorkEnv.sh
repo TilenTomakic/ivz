@@ -1,7 +1,10 @@
+#!/usr/bin/env bash
 
 sudo su
 
 apt -y install nano gedit curl apache2 wireshark git
+usermod -a -G wireshark $USER
+# sudo usermod -a -G wireshark $USER
 
 # disable IPv6
 echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf
@@ -16,3 +19,8 @@ cat /proc/sys/net/ipv6/conf/all/disable_ipv6
 # AAA with FreeRADIUS #
 #######################
 apt -y install freeradius freeradius-utils apache2 libapache2-mod-auth-radius
+
+
+
+chmod +x iptables2.sh
+
