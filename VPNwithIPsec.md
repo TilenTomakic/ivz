@@ -345,3 +345,20 @@ https://wiki.strongswan.org/projects/strongswan/wiki/IKEv2Examples
 
 
 PROPER: https://www.strongswan.org/testing/testresults/ikev2/ip-pool/
+
+
+
+ALL:
+https://www.strongswan.org/testing/testresults/ikev2/ip-pool/
+https://www.strongswan.org/testing/testresults/ikev2/rw-eap-md5-radius/
+https://www.strongswan.org/testing/testresults/ikev2/rw-eap-md5-radius/
+https://www.strongswan.org/testing/testresults/ikev2/rw-eap-md5-radius/
+https://wiki.strongswan.org/projects/strongswan/wiki/IntroductionTostrongSwan
+https://www.strongswan.org/testing/testresults/
+
+https://wiki.strongswan.org/projects/strongswan/wiki/ConnSection
+https://wiki.strongswan.org/projects/strongswan/wiki/SimpleCA
+
+
+https://wiki.strongswan.org/projects/strongswan/wiki/IKEv2Examples
+https://www.strongswan.org/testing/testresults/ikev2/ip-pool/moon.ipsec.conf
