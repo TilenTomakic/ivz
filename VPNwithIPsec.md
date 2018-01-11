@@ -284,6 +284,7 @@ conn rw
 	lefthostaccess=yes
 	right=%any
 	rightsourceip=%config
+	[+ADD] rightsubnet=10.3.0.0/16
 	auto=add
 ...
 ```
@@ -319,7 +320,7 @@ conn %default
 
 conn home
     left=10.0.2.21
-	leftsourceip=10.3.0.1
+	# leftsourceip=10.3.0.1
 	leftid=@rw
 	leftfirewall=yes
 	right=10.0.2.19
